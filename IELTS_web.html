@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Academic Reading Practice Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 80vh;
+        }
+
+        .passages-section {
+            flex: 1;
+            padding: 30px;
+            border-right: 2px solid #ecf0f1;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .questions-section {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .passage {
+            margin-bottom: 40px;
+            display: none;
+        }
+
+        .passage.active {
+            display: block;
+        }
+
+        .passage-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .passage-content {
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .paragraph {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .paragraph-label {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+
+        .questions-container {
+            display: none;
+        }
+
+        .questions-container.active {
+            display: block;
+        }
+
+        .question-group {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .question-group h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .question {
+            margin-bottom: 15px;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .question input, .question select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .question input:focus, .question select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .multiple-choice {
+            display: grid;
+            gap: 10px;
+        }
+
+        .choice {
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .choice:hover {
+            background: #f1f2f6;
+            border-color: #3498db;
+        }
+
+        .choice.selected {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: #f8f9fa;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            transition: width 0.3s;
+        }
+
+        .results {
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            color: #27ae60;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .true-false-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .true-false-options .choice {
+            flex: 1;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .passages-section {
+                border-right: none;
+                border-bottom: 2px solid #ecf0f1;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>IELTS Academic Reading Practice Test</h1>
+            <p>Full Mock Examination - 60 Minutes</p>
+            <div class="timer">
+                Time Remaining: <span id="timer">60:00</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="passages-section">
+                <!-- Passage 1 -->
+                <div class="passage active" id="passage1">
+                    <div class="passage-title">Passage 1 – The Future of Space Exploration</div>
+                    <div class="passage-content">
+                        <div class="paragraph">
+                            <div class="paragraph-label">A</div>
+                            For centuries, humanity has gazed at the night sky and wondered what lies beyond Earth. Early astronomers could only speculate, but the launch of Sputnik in 1957 marked the beginning of a new era: the space age. Since then, milestones such as the Apollo moon landings and the construction of the International Space Station (ISS) have demonstrated our ability to leave Earth and survive in space for extended periods. These achievements, however, are only the first steps in what many scientists view as a long journey toward interplanetary exploration.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">B</div>
+                            One of the strongest motivations for space exploration is scientific discovery. Space missions provide data about the origins of the solar system, the formation of planets, and even the possibility of extraterrestrial life. Probes such as Voyager 1 and 2 have transmitted valuable information from the outer planets, while Mars rovers have uncovered evidence that liquid water once existed on the red planet. Each mission brings insights that cannot be gained by Earth-based telescopes alone.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">C</div>
+                            Space exploration also has practical benefits for life on Earth. Satellite technology, originally developed for space programs, is now central to weather forecasting, global communication, and navigation systems such as GPS. Materials science has advanced thanks to the unique environment of microgravity, where new alloys and crystals can be tested. Advocates argue that money spent on space missions is not wasted, since innovations developed for astronauts often find important applications in medicine, engineering, and everyday consumer goods.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">D</div>
+                            Despite these benefits, critics argue that space exploration consumes enormous resources that might be better spent solving problems on Earth. Launching rockets costs billions of dollars, and missions often experience delays or failures. Some environmentalists also point to the pollution caused by rocket fuel, raising concerns about the sustainability of large-scale exploration. As a result, governments must continually balance public interest in ambitious projects against pressing needs such as healthcare, education, and climate change.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">E</div>
+                            In recent years, private companies have begun to transform the landscape of space travel. Firms such as SpaceX and Blue Origin have developed reusable rockets, dramatically lowering launch costs. These companies are not only working in partnership with government agencies like NASA but also pursuing their own commercial goals, such as space tourism and satellite deployment. Some visionaries even suggest that private enterprise will lead the way in colonizing Mars or building permanent settlements on the Moon.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">F</div>
+                            Looking further ahead, scientists debate the feasibility of interstellar travel. While current technology allows spacecraft to reach other planets in our solar system, traveling to even the nearest star system, Alpha Centauri, would take tens of thousands of years with conventional propulsion. Researchers are therefore investigating radical new technologies, including nuclear fusion engines and solar sails powered by lasers. Although these concepts remain theoretical, they highlight humanity's determination to push the boundaries of what is possible.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">G</div>
+                            Another dimension of space exploration involves international cooperation. The ISS, built and operated jointly by multiple nations, represents one of the most complex engineering projects ever undertaken. Collaboration reduces costs, fosters peaceful relations, and allows countries to share expertise. Future missions to Mars may also require multinational teams, given the enormous expense and technical challenges. Some analysts argue that space exploration could serve as a unifying force for humanity at a time of increasing global division.
+                        </div>
+                        <div class="paragraph">
+                            <div class="paragraph-label">H</div>
+                            Ultimately, the future of space exploration will depend on a combination of scientific ambition, technological progress, and societal priorities. Whether humanity chooses to establish colonies on other planets or restrict itself to robotic probes, the drive to explore remains deeply ingrained in our species. The quest for knowledge, survival, and inspiration ensures that space exploration will continue to play a vital role in shaping our destiny.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passage 2 -->
+                <div class="passage" id="passage2">
+                    <div class="passage-title">Passage 2 – The Economics of Mega-Events</div>
+                    <div class="passage-content">
+                        <div class="paragraph">
+                            For seventeen days every few years, the world is captivated by the spectacle of global competition, whether at the Olympics, the World Cup, or another large-scale sporting festival. Yet once the last athletes and spectators have left, host cities are often left with towering debts and costly maintenance bills. The anticipated boost in tourism and employment rarely offsets the billions spent on construction, security, and administration, leaving taxpayers responsible for years to come.
+                        </div>
+                        <div class="paragraph">
+                            Bidding for such events is itself a massive undertaking. Candidate cities may spend close to a decade preparing proposals and lobbying international committees. The official process lasts two years, but the hidden costs—feasibility studies, promotional campaigns, and urban land tied up for promised venues—can run into tens of millions. These bids can still fail, as decisions often hinge on private networks and political considerations rather than merit alone.
+                        </div>
+                        <div class="paragraph">
+                            Once hosting rights are secured, the problem of spiralling expenses begins. Specialized stadiums and arenas are almost always over budget. Montreal took thirty years to pay off debts from the 1976 Olympics, while London's 2012 Games ended up costing several times the original estimate. Economists describe this as "mega-event inflation," a near-inevitable feature of one-off projects that are highly visible and politically sensitive.
+                        </div>
+                        <div class="paragraph">
+                            Supporters argue that cities benefit from upgraded airports, transport networks, and international exposure. Some, like Barcelona in 1992, successfully integrated Olympic redevelopment into long-term planning, creating a revitalized waterfront that still attracts visitors. Others point to the intangible "feel-good factor" of hosting: a sense of unity and pride that can boost national morale.
+                        </div>
+                        <div class="paragraph">
+                            But critics highlight the "white elephant" legacy of empty stadiums and underused sports complexes. Even in countries with strong athletic traditions, taxpayers foot the bill for maintaining venues no longer needed at full scale. Greece's abandoned facilities from the 2004 Games became a symbol of waste, while Rio de Janeiro struggled to find uses for its Olympic sites within months of the 2016 closing ceremony.
+                        </div>
+                        <div class="paragraph">
+                            Inequality is another concern. International committees consistently prefer wealthy global capitals over provincial cities. This ensures that infrastructure improvements are concentrated in places already well served, reinforcing regional divides. Smaller cities and rural populations gain little from the billions spent.
+                        </div>
+                        <div class="paragraph">
+                            To address these problems, reformers have suggested bold alternatives. Some propose designating a permanent host city purpose-built for recurring Games. Others advocate extending the duration of events so that facilities are used for months instead of weeks, easing congestion and distributing benefits more evenly. Another option is to decentralize competitions across multiple countries, lowering the financial burden on any single host.
+                        </div>
+                        <div class="paragraph">
+                            Ultimately, the debate reflects a larger question: should mega-events prioritize spectacle at any cost, or should they be reshaped to serve sustainability and fairness? Without reform, the thrill of global celebration may continue to be followed by decades of financial regret.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passage 3 -->
+                <div class="passage" id="passage3">
+                    <div class="passage-title">Passage 3 – Plain English</div>
+                    <div class="passage-content">
+                        <div class="paragraph">
+                            There is no theoretical limit to the number of special purposes to which language can be put. As society develops new facets, so language is devised to express them. However, the result is often that language becomes very specialised and complex, and complications arise as ordinary people struggle to make sense of it.
+                        </div>
+                        <div class="paragraph">
+                            Popular anxiety over special uses of language is most markedly seen in the campaigns to promote 'plain' speaking and writing – notably, the Plain English movements of Britain and the USA. The main aim of these campaigns is to attack the use of unnecessarily complicated language ('gobbledegook') by governments, businesses and other authorities whose role puts them in linguistic contact with the general public. The campaigners argue that such language, whether spoken or written, should be replaced by clearer forms of expression.
+                        </div>
+                        <div class="paragraph">
+                            The movements took shape only in the 1970s, so it is too soon to ascertain their long-term influence on the characteristics of language varieties. But they have certainly played a major part in promoting public awareness of the existence of communication problems, and have influenced many organisations to do something about it. In Britain, the campaign was launched in 1979, by a ritual shredding of government forms in Parliament Square, London. By 1982, the government had published a report telling departments to improve the design of forms, and to abolish those that were unnecessary. By 1985, around 15,700 forms had disappeared and 21,300 had been revised. In the USA, President Carter's Executive Order of March 1978 required regulations to be written in plain English, and although this was revoked by President Reagan in 1981, it promoted a great deal of legislation throughout the country, and an increase in plain English usage amongst corporations and consumers.
+                        </div>
+                        <div class="paragraph">
+                            Today the Plain English campaigns continue to grow, focusing especially on such everyday consumer literature as forms, official letters, licences, leases, contracts, insurance policies and guarantees. In Britain, annual publicity is given to the Plain English Awards competition, which gives trophies to organisations that have produced the clearest documents, and booby prizes (the Golden Bull Awards) to those whose materials are least intelligible. In the USA, similar interest is shown in the annual Doublespeak Awards, awarded by the National Council of Teachers to 'American public figures who have perpetrated language that is grossly unfactual, deceptive, evasive, euphemistic, confusing or self-contradictory.'
+                        </div>
+                        <div class="paragraph">
+                            In these cost-conscious days, it is stressed that clear language not only avoids anxiety on the part of the recipient, it also saves time and money. The campaigns have large dossiers of problem cases. In one case, an official government letter provoked so many complaints and questions that a second letter had to be sent to explain the first. In another, an application form was wrongly filled in by 50% of the applicants, which resulted in a considerable outlay of effort in returning and reprocessing the form. In contrast, there are cases of businesses revising their literature to avoid legal jargon, and benefiting from increased sales.
+                        </div>
+                        <div class="paragraph">
+                            Particular concern is expressed about the ambiguities and omissions found in medical labels. For example, in one pharmaceutical survey, the instruction to 'use sparingly' was misunderstood by 33% of patients. The instruction 'take two tablets four hourly' received a number of interpretations (e.g. to take eight tablets an hour). Related areas of concern include the use of warning labels on household goods (such as disinfectants) and on toys for children.
+                        </div>
+                        <div class="paragraph">
+                            The instructions accompanying do-it-yourself products are also regularly cited as a source of unnecessary expense or frustration. Few companies seem to test their instructions by having them followed by a first-time user. Often, essential information is omitted, steps in the construction process are taken for granted, and some degree of special knowledge is assumed. This is especially worrying in any fields where failure to follow correct procedures can be dangerous.
+                        </div>
+                        <div class="paragraph">
+                            Objections to material in plain English have come mainly from the legal profession. Lawyers point to the risk of ambiguity inherent in the use of everyday language for legal or official documents, and draw attention to the need for confidence in legal formulations, which can come only from using language that has been tested in courts over the course of centuries. The campaigners point out that there has been no sudden increase in litigation as a consequence of the increase in plain English materials.
+                        </div>
+                        <div class="paragraph">
+                            Similarly, professionals in several different fields have defended their use of technical and complex language as being the most precise means of expressing technical or complex ideas. This is undoubtedly true: scientists, doctors, bankers and others need their jargon in order to communicate with each other succinctly and unambiguously. But when it comes to addressing the non-specialist consumer, the campaigners argue, different criteria must apply.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="questions-section">
+                <!-- Questions for Passage 1 -->
+                <div class="questions-container active" id="questions1">
+                    <div class="question-group">
+                        <h3>Questions 1-6: Which paragraph contains the following information?</h3>
+                        <div class="question">
+                            <label>1. Examples of spin-off technologies that benefit daily life</label>
+                            <select id="q1">
+                                <option value="">Select paragraph...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>2. Concerns about the financial and environmental cost of space travel</label>
+                            <select id="q2">
+                                <option value="">Select paragraph...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>3. Discussion of spacecraft that could travel beyond the solar system</label>
+                            <select id="q3">
+                                <option value="">Select paragraph...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>4. Reference to humankind's first steps into space</label>
+                            <select id="q4">
+                                <option value="">Select paragraph...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>5. Private companies lowering the price of launching rockets</label>
+                            <select id="q5">
+                                <option value="">Select paragraph...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>6. Suggestion that cooperation between nations may reduce expenses</label>
+                            <select id="q6">
+                                <option value="">Select paragraph...</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3>Questions 7-9: Label the diagram below. Choose NO MORE THAN TWO WORDS from the passage for each answer.</h3>
+                        <div class="question">
+                            <label>7. Early stage: launch of ...</label>
+                            <input type="text" id="q7" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <label>8. International collaboration: construction of the ...</label>
+                            <input type="text" id="q8" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <label>9. Commercial innovation: development of ... rockets</label>
+                            <input type="text" id="q9" placeholder="Enter your answer">
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3>Questions 10-13: Complete the summary below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</h3>
+                        <div class="question">
+                            <label>10. Scientists argue that space exploration is important because it provides new knowledge about the ... and possible extraterrestrial life.</label>
+                            <input type="text" id="q10" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <label>11. Evidence gathered by ... on Mars suggests water once existed there.</label>
+                            <input type="text" id="q11" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <label>12. In addition to scientific discovery, exploration has produced useful technologies such as ... for global communication.</label>
+                            <input type="text" id="q12" placeholder="Enter your answer">
+                        </div>
+                        <div class="question">
+                            <label>13. Finally, some researchers argue that working together on ambitious missions could act as a ... for humanity.</label>
+                            <input type="text" id="q13" placeholder="Enter your answer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions for Passage 2 -->
+                <div class="questions-container" id="questions2">
+                    <div class="question-group">
+                        <h3>Questions 14-18: Match each statement with the correct ending.</h3>
+                        <div class="question">
+                            <label>14. The bidding process for mega-events ...</label>
+                            <select id="q14">
+                                <option value="">Select ending...</option>
+                                <option value="A">often strengthen cities that are already wealthy.</option>
+                                <option value="B">are usually much higher than predicted.</option>
+                                <option value="C">can consume years and millions of dollars.</option>
+                                <option value="D">are only useful if athletes win medals.</option>
+                                <option value="E">sometimes continue to benefit cities long after events.</option>
+                                <option value="F">may cause serious environmental damage.</option>
+                                <option value="G">tend to be abandoned after the Games.</option>
+                                <option value="H">depend mainly on support from rural areas.</option>
+                                <option value="I">often outweigh long-term financial gains.</option>
+                                <option value="J">play a large role in deciding host cities.</option>
+                                <option value="K">always guarantee increases in tourism.</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>15. Political factors ...</label>
+                            <select id="q15">
+                                <option value="">Select ending...</option>
+                                <option value="A">often strengthen cities that are already wealthy.</option>
+                                <option value="B">are usually much higher than predicted.</option>
+                                <option value="C">can consume years and millions of dollars.</option>
+                                <option value="D">are only useful if athletes win medals.</option>
+                                <option value="E">sometimes continue to benefit cities long after events.</option>
+                                <option value="F">may cause serious environmental damage.</option>
+                                <option value="G">tend to be abandoned after the Games.</option>
+                                <option value="H">depend mainly on support from rural areas.</option>
+                                <option value="I">often outweigh long-term financial gains.</option>
+                                <option value="J">play a large role in deciding host cities.</option>
+                                <option value="K">always guarantee increases in tourism.</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>16. Cost estimates for construction ...</label>
+                            <select id="q16">
+                                <option value="">Select ending...</option>
+                                <option value="A">often strengthen cities that are already wealthy.</option>
+                                <option value="B">are usually much higher than predicted.</option>
+                                <option value="C">can consume years and millions of dollars.</option>
+                                <option value="D">are only useful if athletes win medals.</option>
+                                <option value="E">sometimes continue to benefit cities long after events.</option>
+                                <option value="F">may cause serious environmental damage.</option>
+                                <option value="G">tend to be abandoned after the Games.</option>
+                                <option value="H">depend mainly on support from rural areas.</option>
+                                <option value="I">often outweigh long-term financial gains.</option>
+                                <option value="J">play a large role in deciding host cities.</option>
+                                <option value="K">always guarantee increases in tourism.</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>17. Specialized Olympic venues ...</label>
+                            <select id="q17">
+                                <option value="">Select ending...</option>
+                                <option value="A">often strengthen cities that are already wealthy.</option>
+                                <option value="B">are usually much higher than predicted.</option>
+                                <option value="C">can consume years and millions of dollars.</option>
+                                <option value="D">are only useful if athletes win medals.</option>
+                                <option value="E">sometimes continue to benefit cities long after events.</option>
+                                <option value="F">may cause serious environmental damage.</option>
+                                <option value="G">tend to be abandoned after the Games.</option>
+                                <option value="H">depend mainly on support from rural areas.</option>
+                                <option value="I">often outweigh long-term financial gains.</option>
+                                <option value="J">play a large role in deciding host cities.</option>
+                                <option value="K">always guarantee increases in tourism.</option>
+                            </select>
+                        </div>
+                        <div class="question">
+                            <label>18. Infrastructure improvements ...</label>
+                            <select id="q18">
+                                <option value="">Select ending...</option>
+                                <option value="A">often strengthen cities that are already wealthy.</option>
+                                <option value="B">are usually much higher than predicted.</option>
+                                <option value="C">can consume years and millions of dollars.</option>
+                                <option value="D">are only useful if athletes win medals.</option>
+                                <option value="E">sometimes continue to benefit cities long after events.</option>
+                                <option value="F">may cause serious environmental damage.</option>
+                                <option value="G">tend to be abandoned after the Games.</option>
+                                <option value="H">depend mainly on support from rural areas.</option>
+                                <option value="I">often outweigh long-term financial gains.</option>
+                                <option value="J">play a large role in deciding host cities.</option>
+                                <option value="K">always guarantee increases in tourism.</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3>Questions 19-25: TRUE/FALSE/NOT GIVEN</h3>
+                        <div class="question">
+                            <label>19. Candidate cities sometimes lose revenue because land is reserved for potential Olympic venues.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q19">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q19">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q19">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>20. Montreal quickly paid off its Olympic debts.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q20">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q20">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q20">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>21. London's Olympic costs exceeded the original budget.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q21">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q21">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q21">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>22. Barcelona's redevelopment continues to attract visitors.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q22">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q22">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q22">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>23. Athens successfully kept its Olympic facilities in use for many years.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q23">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q23">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q23">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>24. Global sporting committees often select provincial cities over capitals.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q24">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q24">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q24">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>25. Some reformers believe competitions could be shared across several nations.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q25">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q25">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q25">NOT GIVEN</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3>Questions 26-27: Choose TWO letters A-E</h3>
+                        <p>Which TWO reform proposals are mentioned in the passage?</p>
+                        <div class="multiple-choice">
+                            <div class="choice" data-value="A" data-question="q26-27">A. Holding the Games permanently in one designated city</div>
+                            <div class="choice" data-value="B" data-question="q26-27">B. Reducing the number of sports to save money</div>
+                            <div class="choice" data-value="C" data-question="q26-27">C. Extending the length of the Games</div>
+                            <div class="choice" data-value="D" data-question="q26-27">D. Removing opening and closing ceremonies</div>
+                            <div class="choice" data-value="E" data-question="q26-27">E. Hosting events across multiple countries</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Questions for Passage 3 -->
+                <div class="questions-container" id="questions3">
+                    <div class="question-group">
+                        <h3>Questions 28-33: TRUE/FALSE/NOT GIVEN</h3>
+                        <div class="question">
+                            <label>28. The Plain English campaigns are concerned with the language officials use when communicating with ordinary people.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q28">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q28">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q28">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>29. Campaigners found it difficult to talk to government officials.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q29">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q29">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q29">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>30. A change of president in the US meant that the effects of the campaign there were negligible.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q30">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q30">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q30">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>31. In the UK, awards are given to people who have produced materials that are easy to understand.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q31">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q31">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q31">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>32. Use of clear language on documents can be economically beneficial.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q32">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q32">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q32">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>33. The tendency of doctors to use jargon when talking to patients often leads to confusion.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q33">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q33">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q33">NOT GIVEN</div>
+                            </div>
+                        </div>
+                        <div class="question">
+                            <label>34. Regular checks are made on language used in the courts.</label>
+                            <div class="true-false-options">
+                                <div class="choice" data-value="TRUE" data-question="q34">TRUE</div>
+                                <div class="choice" data-value="FALSE" data-question="q34">FALSE</div>
+                                <div class="choice" data-value="NOT GIVEN" data-question="q34">NOT GIVEN</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-group">
+                        <h3>Questions 35-40: Complete the summary. Write NO MORE THAN TWO WORDS from the text for each answer.</h3>
+                        <div class="question">
+                            <label>35. For businesses, the use of complex language can have financial implications. The benefits of plain language can be seen in the case of companies who remove ... from their forms and achieve ... as a result.</label>
+                            <input type="text" id="q35a" placeholder="First blank" style="margin-bottom: 10px;">
+                            <input type="text" id="q35b" placeholder="Second blank">
+                        </div>
+                        <div class="question">
+                            <label>36. Consumers often complain that they experience a feeling of ... when trying to put together do-it-yourself products which have not been tested by companies on a ...</label>
+                            <input type="text" id="q36a" placeholder="First blank" style="margin-bottom: 10px;">
+                            <input type="text" id="q36b" placeholder="Second blank">
+                        </div>
+                        <div class="question">
+                            <label>37. In situations where not keeping to the correct procedures could affect safety issues, it is especially important that ... information is not left out and no assumptions are made about a stage being self-evident or the consumer having a certain amount of ...</label>
+                            <input type="text" id="q37a" placeholder="First blank" style="margin-bottom: 10px;">
+                            <input type="text" id="q37b" placeholder="Second blank">
+                        </div>
+                        <div class="question">
+                            <label>38. Lawyers, however, have raised objections to the use of plain English. They feel that it would result in ambiguity in documents and cause people to lose faith in ..., as it would mean departing from language that has been used in the courts for a very long time.</label>
+                            <input type="text" id="q38" placeholder="Enter your answer">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results" id="results">
+                    <h2>Test Results</h2>
+                    <div class="score-display" id="scoreDisplay">0/40</div>
+                    <p>Your score will be calculated based on IELTS band scoring.</p>
+                    <div id="detailedResults"></div>
+                    <button class="btn btn-primary" onclick="restartTest()">Restart Test</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousSection()" disabled>Previous</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextSection()">Next Section</button>
+                <button class="btn btn-success" id="submitBtn" onclick="submitTest()" style="display: none;">Submit Test</button>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 33%"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        let timeLeft = 60 * 60; // 60 minutes in seconds
+        let timerInterval;
+        let userAnswers = {};
+
+        // Answer key
+        const answerKey = {
+            q1: 'C', q2: 'D', q3: 'F', q4: 'A', q5: 'E', q6: 'G',
+            q7: 'Sputnik', q8: 'International Space Station', q9: 'reusable',
+            q10: 'solar system', q11: 'Mars rovers', q12: 'satellite technology', q13: 'unifying force',
+            q14: 'C', q15: 'J', q16: 'B', q17: 'G', q18: 'A',
+            q19: 'TRUE', q20: 'FALSE', q21: 'TRUE', q22: 'TRUE', q23: 'FALSE', q24: 'FALSE', q25: 'TRUE',
+            'q26-27': ['A', 'C', 'E'], // Multiple correct answers
+            q28: 'TRUE', q29: 'NOT GIVEN', q30: 'FALSE', q31: 'TRUE', q32: 'TRUE', q33: 'TRUE', q34: 'NOT GIVEN',
+            q35: 'legal jargon', q36: 'increased sales',
+            q37: 'frustration', q38: 'first-time user',
+            q39: 'essential', q40: 'special knowledge'
+        };
+
+        // Start timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function nextSection() {
+            if (currentSection < 3) {
+                currentSection++;
+                updateDisplay();
+            } else {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'inline-block';
+            }
+        }
+
+        function previousSection() {
+            if (currentSection > 1) {
+                currentSection--;
+                updateDisplay();
+            }
+        }
+
+        function updateDisplay() {
+            // Hide all passages and questions
+            document.querySelectorAll('.passage').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.questions-container').forEach(q => q.classList.remove('active'));
+            
+            // Show current section
+            document.getElementById(`passage${currentSection}`).classList.add('active');
+            document.getElementById(`questions${currentSection}`).classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSection === 1;
+            document.getElementById('nextBtn').style.display = currentSection === 3 ? 'none' : 'inline-block';
+            document.getElementById('submitBtn').style.display = currentSection === 3 ? 'inline-block' : 'none';
+            
+            // Update progress bar
+            const progress = (currentSection / 3) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            collectAnswers();
+            calculateScore();
+            showResults();
+        }
+
+        function collectAnswers() {
+            // Collect all form inputs
+            document.querySelectorAll('input, select').forEach(element => {
+                if (element.value) {
+                    userAnswers[element.id] = element.value.trim();
+                }
+            });
+
+            // Collect true/false choices
+            document.querySelectorAll('.choice.selected').forEach(choice => {
+                const questionId = choice.dataset.question;
+                const value = choice.dataset.value;
+                
+                if (questionId === 'q26-27') {
+                    if (!userAnswers[questionId]) userAnswers[questionId] = [];
+                    userAnswers[questionId].push(value);
+                } else {
+                    userAnswers[questionId] = value;
+                }
+            });
+        }
+
+        function calculateScore() {
+            let correctAnswers = 0;
+            let totalQuestions = 0;
+            let results = {};
+
+            for (const [questionId, correctAnswer] of Object.entries(answerKey)) {
+                totalQuestions++;
+                const userAnswer = userAnswers[questionId];
+
+                if (questionId === 'q26-27') {
+                    // Special handling for multiple choice questions
+                    const userSelected = userAnswers[questionId] || [];
+                    const correctSelected = correctAnswer;
+                    
+                    if (userSelected.length === 2 && 
+                        userSelected.every(answer => correctSelected.includes(answer))) {
+                        correctAnswers++;
+                        results[questionId] = 'correct';
+                    } else {
+                        results[questionId] = 'incorrect';
+                    }
+                } else if (questionId.includes('a') || questionId.includes('b')) {
+                    // Handle compound questions (35a, 35b, etc.)
+                    if (typeof correctAnswer === 'string' && userAnswer) {
+                        if (userAnswer.toLowerCase().includes(correctAnswer.toLowerCase()) || 
+                            correctAnswer.toLowerCase().includes(userAnswer.toLowerCase())) {
+                            correctAnswers++;
+                            results[questionId] = 'correct';
+                        } else {
+                            results[questionId] = 'incorrect';
+                        }
+                    }
+                } else {
+                    if (userAnswer && userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                        correctAnswers++;
+                        results[questionId] = 'correct';
+                    } else {
+                        results[questionId] = 'incorrect';
+                    }
+                }
+            }
+
+            // Adjust total questions for compound questions
+            totalQuestions = 40; // Total questions as per IELTS format
+
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            const bandScore = calculateBandScore(percentage);
+
+            displayResults(correctAnswers, totalQuestions, bandScore, results);
+        }
+
+        function calculateBandScore(percentage) {
+            if (percentage >= 90) return 9;
+            if (percentage >= 80) return 8;
+            if (percentage >= 70) return 7;
+            if (percentage >= 60) return 6.5;
+            if (percentage >= 50) return 6;
+            if (percentage >= 40) return 5.5;
+            if (percentage >= 30) return 5;
+            if (percentage >= 23) return 4.5;
+            if (percentage >= 16) return 4;
+            if (percentage >= 10) return 3.5;
+            if (percentage >= 6) return 3;
+            if (percentage >= 4) return 2.5;
+            return 2;
+        }
+
+        function displayResults(correct, total, bandScore, detailedResults) {
+            document.getElementById('scoreDisplay').textContent = 
+                `${correct}/${total} (Band ${bandScore})`;
+            
+            let detailsHTML = '<div style="text-align: left; margin-top: 20px;">';
+            detailsHTML += '<h3>Detailed Results:</h3>';
+            
+            for (const [questionId, result] of Object.entries(detailedResults)) {
+                const status = result === 'correct' ? '✓' : '✗';
+                const color = result === 'correct' ? 'green' : 'red';
+                detailsHTML += `<p style="color: ${color}">${status} Question ${questionId.replace('q', '')}: ${result}</p>`;
+            }
+            
+            detailsHTML += '</div>';
+            document.getElementById('detailedResults').innerHTML = detailsHTML;
+        }
+
+        function showResults() {
+            document.querySelectorAll('.passage, .questions-container').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById('results').classList.add('active');
+            document.querySelector('.navigation').style.display = 'none';
+        }
+
+        function restartTest() {
+            currentSection = 1;
+            timeLeft = 60 * 60;
+            userAnswers = {};
+            
+            // Reset all form inputs
+            document.querySelectorAll('input, select').forEach(element => {
+                element.value = '';
+            });
+            
+            // Reset all choices
+            document.querySelectorAll('.choice').forEach(choice => {
+                choice.classList.remove('selected');
+            });
+            
+            // Reset display
+            document.getElementById('results').classList.remove('active');
+            document.querySelector('.navigation').style.display = 'flex';
+            updateDisplay();
+            startTimer();
+        }
+
+        // Handle true/false/not given choices
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('choice')) {
+                const questionId = e.target.dataset.question;
+                
+                if (questionId === 'q26-27') {
+                    // Multiple selection for questions 26-27
+                    e.target.classList.toggle('selected');
+                    const selected = document.querySelectorAll(`[data-question="${questionId}"].selected`);
+                    if (selected.length > 2) {
+                        // Remove oldest selection if more than 2 selected
+                        selected[0].classList.remove('selected');
+                    }
+                } else {
+                    // Single selection for other questions
+                    document.querySelectorAll(`[data-question="${questionId}"]`).forEach(choice => {
+                        choice.classList.remove('selected');
+                    });
+                    e.target.classList.add('selected');
+                }
+            }
+        });
+
+        // Initialize the test
+        startTimer();
+        updateDisplay();
+    </script>
+</body>
+</html>
