@@ -294,6 +294,7 @@
             <div class="timer">
                 Time Remaining: <span id="timer">60:00</span>
             </div>
+            <button class="btn btn-success" id="startBtn" onclick="startTest()" style="margin-top: 15px;">Start</button>
         </div>
 
         <div class="main-content">
@@ -836,6 +837,13 @@
             }, 1000);
         }
 
+        function startTest() {
+            if (timerInterval) return;
+            startTimer();
+            const startBtn = document.getElementById('startBtn');
+            if (startBtn) startBtn.style.display = 'none';
+        }
+
         function updateTimerDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
@@ -1019,7 +1027,9 @@
             document.getElementById('results').classList.remove('active');
             document.querySelector('.navigation').style.display = 'flex';
             updateDisplay();
-            startTimer();
+            const startBtn = document.getElementById('startBtn');
+            if (startBtn) startBtn.style.display = 'inline-block';
+            updateTimerDisplay();
         }
 
         // Handle true/false/not given choices
@@ -1046,7 +1056,6 @@
         });
 
         // Initialize the test
-        startTimer();
         updateDisplay();
     </script>
 </body>
